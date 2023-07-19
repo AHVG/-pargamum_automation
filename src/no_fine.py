@@ -1,8 +1,10 @@
+import time
+
 
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchWindowException
 
-from datetime import date
+from datetime import date, datetime
 
 from element_finder import ElementFinder
 from exceptions import ElementNotFoundException, NoBooksException
@@ -80,26 +82,25 @@ class NoFine:
             raise NoBooksException()
 
         for index in range(len(renew_buttons)):
-            print("renovando...")
             path_title = '/html/body/div/div/div/div[1]/div[5]/div/div[2]/div[2]/div/div[1]/div[2]/div/div[%s]/div[1]/span[3]'
             title = ElementFinder().find_element(self.get_browser(), By.XPATH, path_title % (index + 2))
             title = title.text.strip().replace(" - Livros", "")
             print(title)
 
+            path_date = '/html/body/div/div/div/div[1]/div[5]/div/div[2]/div[2]/div/div[1]/div[2]/div/div[%s]/div[2]/div'
+            delivery_date = ElementFinder().find_element(self.get_browser(), By.XPATH, path_date % (index + 2))
+            delivery_date = datetime.strptime(delivery_date.text, "%d/%m/%Y").date()
+            today_date = datetime.now()
 
-            # path_date = f'/html/body/div[13]/table/tbody/tr[1]/td[2]/table/tbody/tr/td[2]/table/tbody/tr/td/div/div[1]/div[2]/table/tbody/tr[{index + 2}]/td[3]'
-            # delivery_date = ElementFinder().find_element(self.get_browser(), By.XPATH, path_date)
-            # delivery_date = [int(x) for x in delivery_date.text.strip().split("/")]
+            print(delivery_date)
+            print(today_date)
+            if delivery_date == today_date:
+                renew_buttons[index].click()
+                print("Renewed title!")
+            else:
+                print("Not on date!")
 
-            # today_date = date.today()
-            # today_date = [today_date.day, today_date.month, today_date.year]
-
-            # if today_date == delivery_date:
-            #     renew_buttons[index].click()
-            #     path_back_button = 'btn_voltar'
-            #     back_button = ElementFinder().find_element(self.get_browser(), By.CLASS_NAME, path_back_button)
-            #     back_button.click()
-
+            time.sleep(2)
             renew_buttons = self.get_buttons()
 
     def run(self):
