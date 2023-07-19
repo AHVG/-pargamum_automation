@@ -81,9 +81,11 @@ class NoFine:
 
         for index in range(len(renew_buttons)):
             print("renovando...")
-            # path_title = f'/html/body/div[13]/table/tbody/tr[1]/td[2]/table/tbody/tr/td[2]/table/tbody/tr/td/div/div[1]/div[2]/table/tbody/tr[{index + 2}]/td[2]/a'
-            # title = ElementFinder().find_element(self.get_browser(), By.XPATH, path_title)
-            # title = title.text.strip().replace(" - Livros", "")
+            path_title = '/html/body/div/div/div/div[1]/div[5]/div/div[2]/div[2]/div/div[1]/div[2]/div/div[%s]/div[1]/span[3]'
+            title = ElementFinder().find_element(self.get_browser(), By.XPATH, path_title % (index + 2))
+            title = title.text.strip().replace(" - Livros", "")
+            print(title)
+
 
             # path_date = f'/html/body/div[13]/table/tbody/tr[1]/td[2]/table/tbody/tr/td[2]/table/tbody/tr/td/div/div[1]/div[2]/table/tbody/tr[{index + 2}]/td[3]'
             # delivery_date = ElementFinder().find_element(self.get_browser(), By.XPATH, path_date)
