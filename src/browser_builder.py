@@ -13,7 +13,11 @@ class BrowserBuilder:
         options = webdriver.ChromeOptions()
         options.add_experimental_option('excludeSwitches', ['enable-logging'])
         
-        browser = webdriver.Chrome(service = service, options=options)
+        try:
+            browser = webdriver.Chrome(service = service, options=options)
+        except:
+            browser = webdriver.Firefox()
+
         try:
             browser.get(url)
             return browser
