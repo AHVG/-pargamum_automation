@@ -20,7 +20,7 @@ class App:
         self.__bot = NoFine()
 
     def run(self):
-        browser = self.__browser_builder.create("https://pergamum.ufsc.br/login?redirect=/")
+        browser = self.__browser_builder.create("https://pergamum.ufsc.br/login?redirect=/meupergamum")
         login, password = self.__credential_builder.create(self.__parser)
 
         if browser is None:
